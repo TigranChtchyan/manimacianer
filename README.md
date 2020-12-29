@@ -1,4 +1,3 @@
 # manimacianer
-# TikonPordzuma
 
-es ughaki pordzum em
+Մենք սարքելու ենք մանիմացիաներ, այսինքն՝ մաթեմատիկական անիմացիաներ։
