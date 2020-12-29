@@ -41,5 +41,5 @@ def aghyusak(width, togh, syun, color):
 # որը կենտրոնիի նկատմամբ phi անկյան տակ է 
 def CirclePoint(Circle, phi):
 	width=Circle.get_width()
-	dot=Dot(Circle.get_center()+np.sin(phi)*UP+np.cos(phi)*RIGHT)
+	dot=Dot(Circle.get_center()+width/2*np.sin(phi)*UP+width/2*np.cos(phi)*RIGHT)
 	return dot
