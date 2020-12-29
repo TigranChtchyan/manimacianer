@@ -4,7 +4,7 @@
 from manimlib.imports import *
 import numpy as np
 
-# Այս ֆունկցիան վերադարձնում է
+# Այս ֆունկցիան վերադարձնում է վերնագիրը էջի վերևում և դրա տակը գիծ քաշած
 def vernagir(header):
 	lin=Line(5*LEFT, 5*RIGHT)
 	vern=VGroup(header, lin)
@@ -36,3 +36,10 @@ def aghyusak(width, togh, syun, color):
 		t=VGroup(t, s)
 	t.shift((togh-1)*width*0.5*DOWN)
 	return t
+
+# Այս ֆունկցիան Circle շրջանագծի վրա առանձնացնում է այն կետը,
+# որը կենտրոնիի նկատմամբ phi անկյան տակ է 
+def CirclePoint(Circle, phi):
+	width=Circle.get_width()
+	dot=Dot(Circle.get_center()+np.sin(phi)*UP+np.cos(phi)*RIGHT)
+	return dot
