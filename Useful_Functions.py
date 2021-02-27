@@ -1,96 +1,110 @@
-# Այստեղ կան կյանքը հեշտացնող ֆունկցիաներ, որոնք
-# կարելի է օգտագործել տարբեր իրավիճակներում:
-
 from manimlib.imports import *
+from erkr import *
+from Grid_Funtions import *
 import numpy as np
 
-# Այս ֆունկցիան վերադարձնում է վերնագիրը էջի վերևում և դրա տակը գիծ քաշած
 def vernagir(header):
+	''''''
 	lin=Line(5*LEFT, 5*RIGHT)
 	vern=VGroup(header, lin)
 	vern.arrange(DOWN)
 	vern.to_edge(UP)
 	return vern
-  
-# Այս ֆունկցիան վերադարձնում է width երկարությամբ կողմ ունեցող և color գույն ունեցող
-# կողք կողքի շարված n հատ քառակուսիկների Group, որի կենտրոնը (0,0) կետն է
-def qarakusikner(width,n,color):
-	x=Square(color=color)
-	x.set_width(width)
-	for i in range(1,n):
-		s=Square(color=color)
-		s.set_width(width)
-		s.shift((i*width)*RIGHT)
-		x=VGroup(x, s)
-	x.shift((n-1)*width*0.5*LEFT)
+def center(array):
+	'''array-ի բոլոր տարրերի կենտրոնների ծանրության կենտրոնը
+	type: coordinates'''
+	mean=0
+	for i in range(len(array)):
+		mean+=array[i].get_center()
+	mean/=len(array)
+	return mean
+def array_to_VGroup(array):
+	'''array-ի բոլոր տարրերով VGroup'''
+	x=array[0]
+	for i in range(1,len(array)):
+		x=VGroup(x,array[i])
+	return x
+def matrix_to_VGroup(matrix):
+	'''matrix-ի բոլոր տարրերով VGroup'''
+	x=matrix[0][0]
+	for i in range(len(matrix)):
+		for j in range(len(matrix[i])):
+			if(i!=0 or j!=0):
+				x=VGroup(x, matrix[i][j])
 	return x
 
-# Այս ֆունկցիան վերադարձնում է width երկարությամբ կողմ ունեցող և color գույն ունեցող
-# togh*syun աղյուսակի տեսքով շարված քառակուսիկների Group, որի կենտրոնը (0,0) կետն է
-def aghyusak(width, togh, syun, color):
-	t=qarakusikner(width, syun, color)
-	a=t
-	for i in range(1,togh):
-		s=a.copy()
-		s.shift((i*width)*UP)
-		t=VGroup(t, s)
-	t.shift((togh-1)*width*0.5*DOWN)
-	return t
+def ncr(n, r):
+    r = min(r, n-r)
+    numer = reduce(op.mul, range(n, n-r, -1), 1)
+    denom = reduce(op.mul, range(1, r+1), 1)
+    return numer // denom
+def Pasc_Tr(l):
+	listok=[]
+	for i in range(l):
+		for j in range(i+1):
+			listok.append(ncr(i,j))
+	return listok
+def Pascal_Tr(height, width, l):
+	'''matrix, որը
+	1․ Պասկալի եռանկյան առաջին l տողերն են, երբ l-ը թիվ է
+	2․ Երբ l-ը list է'''
+	listik=[]
+	if(type(l)!=list):
+		l=Pasc_Tr(l)
+	cursor0=0
+	cursor1=0
+	count=0
+	togh=0
+	erk=len(l)
+	while(count<erk):
+		listuk=[]
+		for i in range(min(erk-count, togh+1)):
+			new=TexMobject(l[count])
+			new.move_to(cursor0*RIGHT+cursor1*UP)
+			listuk.append(new)
+			count+=1
+			cursor0+=2*width
+		cursor1-=height
+		cursor0-=((togh+1)*2+1)*width
+		togh+=1
+		listik.append(listuk)
+	return listik
+def srj_ugh(matrix):
+	h=matrix[0][0].get_y()-matrix[1][0].get_y()
+	w=matrix[0][0].get_x()-matrix[1][0].get_x()
+	qar=[]
+	for i in range(len(matrix)):
+		q=[]
+		for j in range(len(matrix[i])):
+			rec=Rectangle(height=h, width=2*w)
+			rec.move_to(matrix[i][j])
+			q.append(rec)
+		qar.append(q)
+	return qar
 
-# Այս ֆունկցիան վերադարձնում է width երկարությամբ կողմ ունեցող և color գույն ունեցող
-# կողք կողքի շարված n հատ քառակուսիկների Array, որի կենտրոնը (0,0) կետն է
-def qar_array(width,n,color):
-	x=Square(color=color)
-	x.set_width(width)
-	t=[]
-	for i in range(n):
-		s=x.copy()
-		s.shift((i*width)*RIGHT)
-		t.append(s)
-		t[i].shift((n-1)*width*0.5*LEFT)
-	return t
-
-# Այս ֆունկցիան վերադարձնում է width երկարությամբ կողմ ունեցող և color գույն ունեցող
-# կողք կողքի շարված n հատ քառակուսիկների Array, որի կենտրոնը (0,0) կետն է և որոնք midtogh հեռավորությամբ են
-def qar_array_2(width,n,color,midtogh):
-	x=Square(color=color)
-	x.set_width(width)
-	t=[]
-	for i in range(n):
-		s=x.copy()
-		s.shift((i*(width+midtogh))*RIGHT)
-		t.append(s)
-		t[i].shift((n-1)*(width+midtogh)*0.5*LEFT)
-	return t
-
-# Այս ֆունկցիան վերադարձնում է width երկարությամբ կողմ ունեցող և color գույն ունեցող
-# togh*syun աղյուսակի տեսքով շարված քառակուսիկների Array, որի կենտրոնը (0,0) կետն է
-def agh_array(width, togh, syun, color):
-	t=qar_array(width, syun, color)
-	k=[]
+def Pascal_Fib(matrix, mult):
+	lines=[]
+	h=matrix[0][0].get_y()-matrix[1][0].get_y()
+	w=matrix[0][0].get_x()-matrix[1][0].get_x()
+	coord1 = matrix[0][0].get_center()
+	coord2 = matrix[0][0].get_center() + mult * (h * UP + 3 * w * RIGHT)
+	togh = len(matrix)
 	for i in range(togh):
-		s=qar_array(width, syun, color)
-		for j in range(syun):
-			s[j].shift((i*width)*UP)
-			s[j].shift((togh-1)*width*0.5*DOWN)
-		k.append(s)
-	return k
+#		line=Line(coord1-2/3*UP*i,coord2-2/3*UP*i)
+		line=DashedLine(coord1+i*(h*DOWN+w*LEFT),coord2-h*2/3*UP*i)
+		lines.append(line)
+	return lines
 
-# Այս ֆունկցիան վերադարձնում է width երկարությամբ կողմ ունեցող և color գույն ունեցող
-# togh*syun աղյուսակի տեսքով շարված քառակուսիկների Array, որի կենտրոնը (0,0) կետն է, և որոնք ունեն midtogh ու midsyun հեռավորությունները
-def agh_array_2(width, togh, syun, color, midtogh, midsyun):
-	k=[]
+def Pascal_ast(matrix, mult):
+	lines=[]
+	h=matrix[0][0].get_y()-matrix[1][0].get_y()
+	w=matrix[0][0].get_x()-matrix[1][0].get_x()
+
+	coord1=matrix[0][0].get_center()
+	coord2=matrix[0][0].get_center()+mult*(3*w*RIGHT)
+
+	togh=len(matrix)
 	for i in range(togh):
-		s=qar_array_2(width, syun, color, midtogh)
-		for j in range(syun):
-			s[j].shift((i*(width+midsyun)*UP))
-			s[j].shift((togh-1)*(width+midsyun)*0.5*DOWN)
-		k.append(s)
-	return k
-
-# Այս ֆունկցիան Circle շրջանագծի վրա առանձնացնում է այն կետը,
-# որը կենտրոնիի նկատմամբ phi անկյան տակ է 
-def CirclePoint(Circle, phi):
-	width=Circle.get_width()
-	dot=Dot(Circle.get_center()+width/2*np.sin(phi)*UP+width/2*np.cos(phi)*RIGHT)
-	return dot
+		line=DashedLine(coord1+i*(h*DOWN+w*LEFT),coord2-h*i*UP)
+		lines.append(line)
+	return lines
