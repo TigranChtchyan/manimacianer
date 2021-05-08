@@ -2,4 +2,4 @@
 
 Մենք սարքում ենք մանիմացիաներ` մաթեմատիկական անիմացիաներ, որպեսզի ցույց տանք մաթեմատիկայի գեղեցկությունը:
 
-<img src="https://im.ezgif.com/tmp/ezgif-1-37a816078ac4.gif" width="40" height="40" />
+<img src="https://im.ezgif.com/tmp/ezgif-1-37a816078ac4.gif" width="400" height="400" />
