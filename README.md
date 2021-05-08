@@ -2,4 +2,4 @@
 
 Մենք սարքում ենք մանիմացիաներ` մաթեմատիկական անիմացիաներ, որպեսզի ցույց տանք մաթեմատիկայի գեղեցկությունը:
 
-[![SC2 Video](doc/SC2_youtube.gif)](https://www.youtube.com/watch?v=Y8bbQd4iLjc)
+<img src="https://im.ezgif.com/tmp/ezgif-1-37a816078ac4.gif" width="40" height="40" />
